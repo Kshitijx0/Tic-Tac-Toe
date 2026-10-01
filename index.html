@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Global settings: always visible in the top-right corner -->
+  <header class="toolbar">
+    <button id="btn-sound" class="chip" aria-pressed="true">Sound: On</button>
+    <button id="btn-anim" class="chip" aria-pressed="true">Animations: On</button>
+    <button id="btn-theme" class="chip">Theme: Dark</button>
+  </header>
+
+  <main class="app">
+
+    <!-- ========== SCREEN 1: MAIN MENU ========== -->
+    <section id="screen-menu" class="screen menu">
+      <!-- Little animated board that "plays itself" when the page loads -->
+      <svg class="hero" viewBox="0 0 120 120" aria-hidden="true">
+        <g class="hero-grid">
+          <line x1="40" y1="8" x2="40" y2="112"/><line x1="80" y1="8" x2="80" y2="112"/>
+          <line x1="8" y1="40" x2="112" y2="40"/><line x1="8" y1="80" x2="112" y2="80"/>
+        </g>
+        <g class="hero-x">
+          <line class="draw" style="--d:.2s" pathLength="1" x1="10" y1="10" x2="30" y2="30"/>
+          <line class="draw" style="--d:.3s" pathLength="1" x1="30" y1="10" x2="10" y2="30"/>
+          <line class="draw" style="--d:.9s" pathLength="1" x1="50" y1="50" x2="70" y2="70"/>
+          <line class="draw" style="--d:1s"  pathLength="1" x1="70" y1="50" x2="50" y2="70"/>
+          <line class="draw" style="--d:1.6s" pathLength="1" x1="90" y1="90" x2="110" y2="110"/>
+          <line class="draw" style="--d:1.7s" pathLength="1" x1="110" y1="90" x2="90" y2="110"/>
+        </g>
+        <g class="hero-o">
+          <circle class="draw" style="--d:.55s" pathLength="1" cx="60" cy="20" r="10"/>
+          <circle class="draw" style="--d:1.25s" pathLength="1" cx="20" cy="60" r="10"/>
+        </g>
+        <line class="draw hero-strike" style="--d:2.1s" pathLength="1" x1="6" y1="6" x2="114" y2="114"/>
+      </svg>
+
+      <h1 class="title">TIC TAC TOE</h1>
+
+      <div class="menu-buttons">
+        <button id="btn-2p" class="btn btn-primary">2 PLAYER</button>
+        <button id="btn-ai" class="btn btn-primary">PLAY vs AI</button>
+      </div>
+    </section>
+
+    <!-- ========== SCREEN 2: AI SETUP ========== -->
+    <section id="screen-setup" class="screen setup" hidden>
+      <h2 class="screen-title">Play vs AI</h2>
+
+      <div class="field">
+        <p class="field-label" id="lbl-diff">Difficulty</p>
+        <div class="seg-group" id="group-difficulty" role="radiogroup" aria-labelledby="lbl-diff">
+          <button class="seg" role="radio" data-value="easy">Easy</button>
+          <button class="seg" role="radio" data-value="medium">Medium</button>
+          <button class="seg" role="radio" data-value="hard">Hard</button>
+        </div>
+        <p class="hint" id="diff-hint"></p>
+      </div>
+
+      <div class="field">
+        <p class="field-label" id="lbl-sym">Choose symbol</p>
+        <div class="seg-group" id="group-symbol" role="radiogroup" aria-labelledby="lbl-sym">
+          <button class="seg" role="radio" data-value="X">X</button>
+          <button class="seg" role="radio" data-value="O">O</button>
+        </div>
+        <p class="hint">X always goes first. Pick O and the AI opens the game.</p>
+      </div>
+
+      <div class="menu-buttons">
+        <button id="btn-start" class="btn btn-primary">START GAME</button>
+        <button id="btn-setup-back" class="btn btn-ghost">Back</button>
+      </div>
+    </section>
+
+    <!-- ========== SCREEN 3: GAME ========== -->
+    <section id="screen-game" class="screen game" hidden>
+      <div class="game-head">
+        <span id="game-mode" class="mode-label"></span>
+      </div>
+
+      <!-- Shows whose turn it is (hidden when the round ends) -->
+      <div id="status" class="status" aria-live="polite"></div>
+
+      <!-- Shown instead of the status when the round ends -->
+      <div id="result" class="result" hidden aria-live="assertive">
+        <h2 id="result-title"></h2>
+        <p id="result-sub"></p>
+        <div class="controls">
+          <button id="btn-again" class="btn btn-primary">Play Again</button>
+          <button id="btn-result-menu" class="btn btn-ghost">Main Menu</button>
+        </div>
+      </div>
+
+      <!-- The 9 cells are created by script.js -->
+      <div id="board" class="board turn-x" role="grid" aria-label="Tic Tac Toe board"></div>
+
+      <div class="scoreboard">
+        <div class="score score-x"><span class="score-label">X Wins</span><strong id="score-x">0</strong><span id="name-x" class="score-name"></span></div>
+        <div class="score score-draw"><span class="score-label">Draws</span><strong id="score-draw">0</strong><span class="score-name">&nbsp;</span></div>
+        <div class="score score-o"><span class="score-label">O Wins</span><strong id="score-o">0</strong><span id="name-o" class="score-name"></span></div>
+      </div>
+
+      <div id="controls" class="controls">
+        <button id="btn-restart" class="btn btn-ghost">Restart Round</button>
+        <button id="btn-menu" class="btn btn-ghost">Main Menu</button>
+      </div>
+      <button id="btn-reset-scores" class="link-btn">Reset scores</button>
+    </section>
+
+  </main>
+
+  <noscript>This game needs JavaScript enabled.</noscript>
+  <script src="script.js"></script>
+</body>
+</html>

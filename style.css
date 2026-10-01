@@ -1,0 +1,208 @@
+/* =========================================================
+   TIC TAC TOE - styles
+   1. Theme colours   2. Base   3. Buttons   4. Menu/Setup
+   5. Game board      6. Scoreboard/Result   7. Animations
+   ========================================================= */
+
+/* ---------- 1. THEME COLOURS (change these to re-skin the game) ---------- */
+:root {
+  --font: "Avenir Next", "Segoe UI", "Trebuchet MS", system-ui, sans-serif;
+  --radius: 14px;
+}
+[data-theme="dark"] {
+  --bg: #0f2a2e;  --ink: #eef3ef;  --muted: #9bb7b4;  --grid: #5f8f8b;
+  --x: #f2efe6;   --o: #ff9d66;
+  --accent: #f5c84c;  --accent-ink: #1b2a22;
+  --win: #f5c84c;  --win-bg: rgba(245, 200, 76, .16);
+  --panel: rgba(255, 255, 255, .06);
+}
+[data-theme="light"] {
+  --bg: #e8f0ee;  --ink: #0f2a2e;  --muted: #4d6c6f;  --grid: #7ea3a0;
+  --x: #0f2a2e;   --o: #d9542a;
+  --accent: #0f6b6b;  --accent-ink: #ffffff;
+  --win: #0f6b6b;  --win-bg: rgba(15, 107, 107, .14);
+  --panel: rgba(15, 42, 46, .07);
+}
+
+/* ---------- 2. BASE ---------- */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  transition: background .3s, color .3s;
+}
+
+.toolbar {
+  display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px;
+  padding: 12px 14px;
+}
+.chip {
+  font: inherit; font-size: .8rem; color: var(--muted);
+  background: transparent; border: 1px solid var(--grid); border-radius: 999px;
+  padding: 6px 12px; cursor: pointer;
+  transition: color .2s, border-color .2s, transform .15s;
+}
+.chip:hover { color: var(--ink); border-color: var(--ink); }
+.chip:active { transform: scale(.95); }
+
+.app {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  padding: 8px 16px 28px;
+}
+.screen { width: 100%; display: flex; flex-direction: column; align-items: center; }
+
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+/* ---------- 3. BUTTONS ---------- */
+.btn {
+  font: inherit; font-weight: 700; letter-spacing: .06em;
+  padding: 14px 28px; border-radius: var(--radius);
+  border: 2px solid transparent; cursor: pointer;
+  transition: transform .15s ease, box-shadow .2s ease, background .2s, color .2s;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0, 0, 0, .25); }
+.btn:active { transform: translateY(0) scale(.97); box-shadow: none; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-ghost { background: transparent; color: var(--ink); border-color: var(--grid); }
+.btn-ghost:hover { border-color: var(--ink); }
+
+.link-btn {
+  font: inherit; font-size: .85rem; color: var(--muted);
+  background: none; border: 0; cursor: pointer; text-decoration: underline;
+}
+.link-btn:hover { color: var(--ink); }
+
+/* ---------- 4. MENU + SETUP ---------- */
+.menu { gap: 26px; text-align: center; }
+.title {
+  margin: 0; font-size: clamp(2.4rem, 11vw, 4.6rem);
+  font-weight: 800; line-height: 1; letter-spacing: .03em;
+}
+.menu-buttons { display: flex; flex-direction: column; gap: 14px; width: min(100%, 320px); }
+
+.hero { width: clamp(110px, 30vw, 160px); height: auto; overflow: visible; }
+.hero * { fill: none; stroke-linecap: round; }
+.hero-grid line { stroke: var(--grid); stroke-width: 3; }
+.hero-x line { stroke: var(--x); stroke-width: 5; }
+.hero-o circle { stroke: var(--o); stroke-width: 5; }
+.hero-strike { stroke: var(--win); stroke-width: 4; }
+
+.setup { gap: 22px; max-width: 420px; }
+.screen-title { margin: 0; font-size: 2rem; }
+.field { width: 100%; }
+.field-label { margin: 0 0 8px; font-weight: 700; }
+.hint { margin: 8px 0 0; color: var(--muted); font-size: .9rem; min-height: 1.2em; }
+.seg-group { display: flex; gap: 8px; }
+.seg {
+  flex: 1; font: inherit; font-weight: 700; color: var(--ink);
+  background: transparent; border: 2px solid var(--grid); border-radius: 12px;
+  padding: 12px 8px; cursor: pointer;
+  transition: background .2s, color .2s, border-color .2s, transform .15s;
+}
+.seg:hover { border-color: var(--ink); }
+.seg:active { transform: scale(.96); }
+.seg[aria-checked="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+/* ---------- 5. GAME BOARD ---------- */
+.game { gap: 14px; max-width: 520px; }
+.mode-label { color: var(--muted); font-weight: 600; }
+.status {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 1.25rem; font-weight: 700; min-height: 2.6rem; text-align: center;
+}
+.sym { font-size: 1.6rem; font-weight: 800; }
+.sym.x { color: var(--x); }
+.sym.o { color: var(--o); }
+
+.board {
+  --size: min(88vw, 50vh, 440px);
+  --lw: clamp(4px, 1.2vw, 7px);
+  width: var(--size); height: var(--size);
+  display: grid; grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+}
+/* The grid lines are just borders on the cells */
+.cell {
+  position: relative; display: grid; place-items: center;
+  padding: 0; margin: 0; border: 0; border-radius: 0;
+  background: transparent; background-clip: padding-box;
+  cursor: pointer; font: inherit; color: var(--ink);
+  transition: background .2s;
+}
+.cell:nth-child(-n+6) { border-bottom: var(--lw) solid var(--grid); }
+.cell:not(:nth-child(3n)) { border-right: var(--lw) solid var(--grid); }
+.cell:focus-visible { outline-offset: -8px; }
+
+/* Hover: show a faint preview of the symbol about to be placed */
+.cell::after { content: ""; font-size: calc(var(--size) / 4.2); font-weight: 800; opacity: 0; transition: opacity .2s; }
+.board:not(.locked) .cell:empty:hover { background-color: var(--panel); }
+.board.turn-x:not(.locked) .cell:empty:hover::after { content: "X"; color: var(--x); opacity: .25; }
+.board.turn-o:not(.locked) .cell:empty:hover::after { content: "O"; color: var(--o); opacity: .35; }
+.board.locked .cell, .cell:disabled { cursor: default; }
+
+/* The X and O drawings */
+.mark { width: 62%; height: 62%; overflow: visible; }
+.mark * { fill: none; stroke-width: 9; stroke-linecap: round; }
+.mark-x * { stroke: var(--x); }
+.mark-o * { stroke: var(--o); }
+
+/* Winning cells */
+.cell.win { background-color: var(--win-bg); }
+.cell.win .mark { animation: pop .6s ease-out both; filter: drop-shadow(0 0 8px var(--win)); }
+.board.won .cell:not(.win) .mark { opacity: .3; transition: opacity .4s; }
+.board.draw { animation: shake .5s ease; }
+.board.draw .mark { opacity: .55; transition: opacity .4s; }
+
+/* ---------- 6. SCOREBOARD + RESULT ---------- */
+.scoreboard {
+  width: 100%; display: grid; grid-template-columns: repeat(3, 1fr);
+  background: var(--panel); border-radius: var(--radius); margin-top: 6px;
+}
+.score { display: flex; flex-direction: column; align-items: center; padding: 12px 6px; }
+.score + .score { border-left: 1px solid var(--grid); }
+.score-label { color: var(--muted); font-size: .85rem; }
+.score strong { font-size: 2rem; line-height: 1.2; }
+.score-x strong { color: var(--x); }
+.score-o strong { color: var(--o); }
+.score-name { font-size: .8rem; color: var(--muted); }
+
+.controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.result { text-align: center; animation: rise .4s ease-out; }
+.result h2 { margin: 0; font-size: clamp(2rem, 9vw, 3rem); letter-spacing: .04em; }
+.result p { margin: 4px 0 12px; color: var(--muted); }
+.result.x h2 { color: var(--x); }
+.result.o h2 { color: var(--o); }
+.result.draw h2 { color: var(--accent); }
+
+/* ---------- 7. ANIMATIONS ---------- */
+/* Strokes "draw" themselves: pathLength="1" lets us animate 1 -> 0 */
+.draw, .mark line, .mark circle { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.draw, .mark line, .mark circle { animation: draw .35s ease-out var(--d, 0s) both; }
+.mark line:nth-child(2) { --d: .12s; }
+
+@keyframes draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes pop { 0% { transform: scale(1); } 45% { transform: scale(1.25); } 100% { transform: scale(1.1); } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+/* Animations toggle + users who prefer reduced motion */
+body.no-anim *, body.no-anim *::before, body.no-anim *::after {
+  animation: none !important; transition: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 420px) {
+  .btn { padding: 12px 20px; }
+  .toolbar { justify-content: center; }
+}
